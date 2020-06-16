@@ -17,7 +17,7 @@ const cards = new Map([["A", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6", 6
 function getOptimalAction(playerCards, dealerCard, handCount) {
     const dealerValue = cards.get(dealerCard);
     const playerValue = totalHand(playerCards);
-    // Handle pairs (for splits)
+
     if (shouldPlayerSplit(playerCards, dealerValue, handCount)) {
         return "split";
     }
@@ -26,6 +26,9 @@ function getOptimalAction(playerCards, dealerCard, handCount) {
     }
     else if (shouldPlayerStand(playerValue, dealerValue)) {
         return "stand";
+    }
+    else if (shouldPlayerHit(playerValue, dealerValue)) {
+        return "hit";
     }
     else {
         throw new Error("No action was found");
@@ -142,7 +145,8 @@ function shouldPlayerStand(playerValue, dealerValue) {
     if (playerValue.soft) {
         switch(playerValue.total) {
             case 18:
-                if (dealerValue === 2 || dealerValue === 7 || dealerValue === 8) {
+                // dealer 3-6 should double if allowed and will be caught by shouldPlayerDouble check first
+                if (2 <= dealerValue && dealerValue <= 8) {
                     return true;
                 }
                 return false;
@@ -169,6 +173,44 @@ function shouldPlayerStand(playerValue, dealerValue) {
                 return false;
             default:
                 return false;
+        }
+    }
+}
+
+function shouldPlayerHit(playerValue, dealerValue) {
+    if (playerValue.soft) {
+        // various dealer cards would cause double to be optimal and will be caught by shouldPlayerDouble first
+        if (playerValue.total <= 17) {
+            return true;
+        }
+        else if (playerValue.total === 18) {
+            if (dealerValue === 9 || dealerValue === 10 || dealerValue === 1) {
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
+    } else {
+        // various dealer cards would cause double to be optimal and will be caught by shouldPlayerDouble first
+        if (playerValue.total <= 11) {
+            return true;
+        }
+        else if (playerValue.total == 12) {
+            if ((2 <= dealerValue && dealerValue <= 3) || (7 <= dealerValue && dealerValue <= 10)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        else if (13 <= playerValue.total && playerValue.total <= 16) {
+            if ((7 <= dealerValue && dealerValue <= 10) || dealerValue === 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (playerValue.total >= 17) {
+            return false;
         }
     }
 }
