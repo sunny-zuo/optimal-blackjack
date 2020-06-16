@@ -36,8 +36,8 @@ function getOptimalAction(playerCards, dealerCard, handCount) {
 }
 
 function totalHand(playerCards) {
-    var handValue = {total: 0, soft: false};
-    var hasAce = false;
+    let handValue = {total: 0, soft: false};
+    let hasAce = false;
     for (let i = 0; i < playerCards.length; i++) {
         handValue.total += cards.get(playerCards[i]);
         if (playerCards[i] === "A") {
@@ -225,3 +225,5 @@ function takeInsurance() {
         return false;
     }
 }
+
+exports.getOptimalAction = getOptimalAction;
