@@ -15,10 +15,14 @@ const cards = new Map([["A", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6", 6
 // playerCards is an array of cards, with values 2-10 and J, Q, K, A
 // dealerCard is a single value from 2-10, J, Q, K, A
 function getOptimalAction(playerCards, dealerCard, handCount) {
-    let dealerValue = cards.get(dealerCard);
+    const dealerValue = cards.get(dealerCard);
+    const playerValue = totalHand(playerCards);
     // Handle pairs (for splits)
     if (shouldPlayerSplit(playerCards, dealerValue, handCount)) {
         return "split";
+    }
+    if (shouldPlayerDouble(playerCards, playerValue, dealerValue)) {
+        return "double";
     }
 }
 
@@ -82,6 +86,49 @@ function shouldPlayerSplit(playerCards, dealerValue, handCount) {
                 return true;
             }
             return false;
+    }
+}
+
+function shouldPlayerDouble(playerCards, playerValue, dealerValue) {
+    if (playerCards.length != 2) {
+        // Can double only on any first two
+        return false;
+    }
+    if (playerValue.soft) {
+        switch(playerValue.total) {
+            case 13:
+                if (dealerValue === 6) { return true; }
+                return false;
+            case 14:
+            case 15:
+                if (5 <= dealerValue && dealerValue <= 6) { return true; }
+                return false;
+            case 16:
+                if (4 <= dealerValue && dealerValue <= 6) { return true; }
+                return false;
+            case 17:
+                if (3 <= dealerValue && dealerValue <= 6) { return true; }
+                return false;
+            case 18:
+                if (2 <= dealerValue && dealerValue <= 6) { return true; }
+                return false;
+            default:
+                return false;
+        }
+    } else {
+        switch(playerValue.total) {
+            case 9:
+                if (3 <= dealerValue && dealerValue <= 6) { return true; }
+                return false;
+            case 10:
+                if (2 <= dealerValue && dealerValue <= 9) { return true; }
+                return false;
+            case 11:
+                if (2 <= dealerValue && dealerValue <= 10) { return true; }
+                return false;
+            default:
+                return false;
+        }
     }
 }
 
