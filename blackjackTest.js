@@ -4,7 +4,7 @@ const cardVals = new Map([["A", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6"
 
 function runSims() {
     let netProfit = 0;
-    let simCount = 100000000;
+    let simCount = 1000000;
     for (let i = 0; i < simCount; i++) {
         let playerHand = [];
         let dealerHand = [getRandomCard(), getRandomCard()];
