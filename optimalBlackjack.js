@@ -54,7 +54,7 @@ function totalHand(playerCards) {
 
 function shouldPlayerSplit(playerCards, dealerValue, handCount) {
     // Check is split is allowed
-    if (playerCards.length != 2 || playerCards[0] != playerCards[1] || handCount <= maxSplitHands) {
+    if (playerCards.length != 2 || playerCards[0] != playerCards[1] || handCount >= maxSplitHands) {
         return false;
     }
 
