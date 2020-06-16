@@ -31,6 +31,7 @@ function getOptimalAction(playerCards, dealerCard, handCount) {
         return "hit";
     }
     else {
+        console.log(`Player Hand: ${JSON.stringify(playerCards)}, Dealer Card: ${dealerCard}`);
         throw new Error("No action was found");
     }
 }
@@ -158,7 +159,7 @@ function shouldPlayerStand(playerValue, dealerValue) {
                 return false;
         }
     } else {
-        if (playerValue.total > 17) {
+        if (playerValue.total >= 17) {
             return true;
         }
         switch (playerValue.total) {
@@ -196,8 +197,8 @@ function shouldPlayerHit(playerValue, dealerValue) {
         if (playerValue.total <= 11) {
             return true;
         }
-        else if (playerValue.total == 12) {
-            if ((2 <= dealerValue && dealerValue <= 3) || (7 <= dealerValue && dealerValue <= 10)) {
+        else if (playerValue.total === 12) {
+            if ((1 <= dealerValue && dealerValue <= 3) || (7 <= dealerValue && dealerValue <= 10)) {
                 return true;
             } else {
                 return false;
