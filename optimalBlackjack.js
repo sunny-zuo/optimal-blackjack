@@ -21,8 +21,14 @@ function getOptimalAction(playerCards, dealerCard, handCount) {
     if (shouldPlayerSplit(playerCards, dealerValue, handCount)) {
         return "split";
     }
-    if (shouldPlayerDouble(playerCards, playerValue, dealerValue)) {
+    else if (shouldPlayerDouble(playerCards, playerValue, dealerValue)) {
         return "double";
+    }
+    else if (shouldPlayerStand(playerValue, dealerValue)) {
+        return "stand";
+    }
+    else {
+        throw new Error("No action was found");
     }
 }
 
@@ -125,6 +131,41 @@ function shouldPlayerDouble(playerCards, playerValue, dealerValue) {
                 return false;
             case 11:
                 if (2 <= dealerValue && dealerValue <= 10) { return true; }
+                return false;
+            default:
+                return false;
+        }
+    }
+}
+
+function shouldPlayerStand(playerValue, dealerValue) {
+    if (playerValue.soft) {
+        switch(playerValue.total) {
+            case 18:
+                if (dealerValue === 2 || dealerValue === 7 || dealerValue === 8) {
+                    return true;
+                }
+                return false;
+            case 19:
+            case 20:
+            case 21:
+                return true;
+            default:
+                return false;
+        }
+    } else {
+        if (playerValue.total > 17) {
+            return true;
+        }
+        switch (playerValue.total) {
+            case 12:
+                if (4 <= dealerValue && dealerValue <= 6) { return true; }
+                return false;
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                if (2 <= dealerValue && dealerValue <= 6) { return true; }
                 return false;
             default:
                 return false;
