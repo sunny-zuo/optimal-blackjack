@@ -37,7 +37,7 @@ There is no ```insurance``` return, as insurance is never worth it when sites of
 
 I wrote ```blackjackTest.js``` to test the module to ensure that all correct strategy was followed. After 10 million simulations:
 ```
-The experimental house edge with 1000000000 simulations is 0.5679% with a net profit of -5678639
+The experimental house edge with 1000000000 simulations is 0.5524% with 1032418926 wagered and -5702727 net
 ```
 
-The experimental house edge was 0.5679%, which is reasonably close (after accounting for variance) to the actual house edge of 0.5704%.
+We get an experimental house edge of 0.5524% per wager and a house edge of 0.5703% per hand, which is about as expected.

@@ -4,6 +4,7 @@ const cardVals = new Map([["A", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6"
 
 function runSims() {
     let netProfit = 0;
+    let wagered = 0;
     let simCount = 1000000;
     for (let i = 0; i < simCount; i++) {
         let playerHand = [];
@@ -15,9 +16,11 @@ function runSims() {
             if (totalHand(playerHand[0]) == 21) {
                 continue;
             }
+            wagered += 1;
             netProfit -= 1;
             continue;
         } else if (totalHand(playerHand[0]) === 21) {
+            wagered += 1;
             netProfit += 1.5;
             continue;
         }
@@ -40,7 +43,7 @@ function runSims() {
         // Continue doing actions
         checkHands:
         for (let j = 0; j < playerHand.length; j++) {
-            action = skipActions ? "stand" : " ";
+            let action = skipActions ? "stand" : " ";
             let betSize = 1;
             while (action != "stand") {
                 action = OptimalBlackjack.getOptimalAction(playerHand[j], dealerHand[0], playerHand.length);
@@ -64,24 +67,28 @@ function runSims() {
             // Check against dealer hand
             if (totalHand(playerHand[j]) > 21) {
                 netProfit -= betSize;
+                wagered += betSize;
                 continue;
             }
             else if (totalHand(dealerHand) > 21) {
                 netProfit += betSize;
+                wagered += betSize;
                 continue;
             } 
             if (totalHand(dealerHand) > totalHand(playerHand[j])) {
                 netProfit -= betSize;
+                wagered += betSize;
                 continue;
             } else if (totalHand(dealerHand) === totalHand(playerHand[j])) {
                 continue;
             } else {
                 netProfit += betSize;
+                wagered += betSize;
                 continue;
             }
         }
     }
-    console.log(`The experimental house edge with ${simCount} simulations is ${-(netProfit/simCount*100).toFixed(4)}% with a net profit of ${netProfit}`);
+    console.log(`The experimental house edge with ${simCount} simulations is ${-(netProfit/wagered*100).toFixed(4)}% with ${wagered} wagered and ${netProfit} net`);
 }
 
 
