@@ -228,3 +228,4 @@ function takeInsurance() {
 }
 
 exports.getOptimalAction = getOptimalAction;
+exports.takeInsurance = takeInsurance;
