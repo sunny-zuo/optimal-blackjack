@@ -1,8 +1,11 @@
-const OptimalBlackjack = require("./optimalBlackjack.js");
+import OptimalBlackjack from "./OptimalBlackjack.js";
+
 const cards = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 const cardVals = new Map([["A", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6", 6], ["7", 7], ["8", 8], ["9", 9], ["10", 10], ["J", 10], ["Q", 10], ["K", 10]]);
 
 function runSims() {
+    let Strategy = new OptimalBlackjack(2);
+
     let netProfit = 0;
     let wagered = 0;
     let simCount = 1000000;
@@ -32,7 +35,7 @@ function runSims() {
 
         // Check split
         let skipActions = false;
-        if (OptimalBlackjack.getOptimalAction(playerHand[0], dealerHand[0], 1) === "split") {
+        if (Strategy.getAction(playerHand[0], dealerHand[0], 1) === "split") {
             playerHand[0][1] = getRandomCard();
             playerHand.push([playerHand[0][0], getRandomCard()]);
             if (playerHand[0][0] === "A") {
@@ -46,7 +49,7 @@ function runSims() {
             let action = skipActions ? "stand" : " ";
             let betSize = 1;
             while (action != "stand") {
-                action = OptimalBlackjack.getOptimalAction(playerHand[j], dealerHand[0], playerHand.length);
+                action = Strategy.getAction(playerHand[j], dealerHand[0], playerHand.length);
                 switch (action) {
                     case "double":
                         betSize *= 2;
@@ -88,7 +91,7 @@ function runSims() {
             }
         }
     }
-    console.log(`The experimental house edge with ${simCount} simulations is ${-(netProfit/wagered*100).toFixed(4)}% with ${wagered} wagered and ${netProfit} net`);
+    console.log(`The experimental house edge with ${simCount} simulations is ${-(netProfit/simCount*100).toFixed(4)}% with ${wagered} wagered and ${netProfit} net.\nThe expected edge is 0.57%, which should be fairly close to the experimental house edge. Increase the simulation count to reduce variance and get closer to the expected value.`);
 }
 
 

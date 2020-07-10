@@ -1,0 +1,24 @@
+{
+  "name": "optimal-blackjack",
+  "version": "1.0.0",
+  "description": "Returns the optimal action for a given blackjack hand in an infinite deck game",
+  "main": "OptimalBlackjack.js",
+  "scripts": {
+    "test": "node blackjackTest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunny-zuo/optimal-blackjack.git"
+  },
+  "keywords": [
+    "blackjack",
+    "strategy"
+  ],
+  "author": "Sunny Zuo <me@sunnyzuo.com> (https://sunnyzuo.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunny-zuo/optimal-blackjack/issues"
+  },
+  "homepage": "https://github.com/sunny-zuo/optimal-blackjack#readme",
+  "type": "module"
+}
