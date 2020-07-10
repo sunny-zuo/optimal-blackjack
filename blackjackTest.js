@@ -1,10 +1,21 @@
-import OptimalBlackjack from "./OptimalBlackjack.js";
+/* Ruleset:
+    Infinite decks
+    Dealer stands on soft 17
+    Player can double after split
+    Player can double on any first two cards
+    Player can split to 2 (default) hands maximum (customizable)
+    Player can resplit aces
+    Player loses only original bet vs dealer BJ
+    No surrender
+*/
+
+const OptimalBlackjack = require('./OptimalBlackjack.js');
 
 const cards = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 const cardVals = new Map([["A", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5], ["6", 6], ["7", 7], ["8", 8], ["9", 9], ["10", 10], ["J", 10], ["Q", 10], ["K", 10]]);
 
 function runSims() {
-    let Strategy = new OptimalBlackjack(2);
+    let Strategy = new OptimalBlackjack(2, false);
 
     let netProfit = 0;
     let wagered = 0;
